@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": null,
-    "database": "db-final-project",
-    "host": "127.0.0.1",
+    "password": "root",
+    "database": "cafe_online",
+    "host": "47.128.145.189",
     "dialect": "mysql"
   },
   "test": {
