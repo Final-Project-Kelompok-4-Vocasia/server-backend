@@ -1,5 +1,6 @@
 const express = require("express");
 const routers = require("./routes/index");
+const cors = require("cors");
 
 const app = express();
 const port = 3000;
@@ -12,6 +13,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(routers);
+app.use(cors());
 
 app.listen(port, () => {
   console.log(`Started server at on port ${port}`);
