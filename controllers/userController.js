@@ -27,7 +27,7 @@ class Controller {
   static async loginUser(req, res) {
     const body = req.body;
     const { email, password } = body;
-    const secret = "rahasia";
+    const secret = "cafee-web";
 
     try {
       const loginUser = await User.findOne({

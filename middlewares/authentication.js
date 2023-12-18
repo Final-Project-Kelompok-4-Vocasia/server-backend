@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const secret = "rahasia";
+const secret = "caffe-web";
 
 async function authentication(req, res, next) {
   try {

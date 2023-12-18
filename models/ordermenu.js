@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       OrderMenu.belongsTo(models.Order, { foreignKey: "orderID", onDelete: "CASCADE", onUpdate: "CASCADE" });
-      OrderMenu.hasMany(models.Menu, { foreignKey: "menuID", onDelete: "CASCADE", onUpdate: "CASCADE" });
+      OrderMenu.belongsTo(models.Menu, { foreignKey: "menuID", onDelete: "CASCADE", onUpdate: "CASCADE" });
     }
   }
   OrderMenu.init(
