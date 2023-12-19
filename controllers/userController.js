@@ -65,6 +65,106 @@ class Controller {
       res.status(500).json(error);
     }
   }
+
+  static async getUserProfile(req, res) {
+    const userId = req.user.id; // Ambil ID pengguna dari JWT token
+
+    try {
+      const userProfile = await User.findByPk(userId, {
+        attributes: { exclude: ['password'] }, // Jangan sertakan password
+      });
+
+      if (!userProfile) {
+        return res.status(404).json({ message: "Profil pengguna tidak ditemukan" });
+      }
+
+      res.status(200).json({ userProfile });
+    } catch (error) {
+      console.error(`Error saat mengambil profil pengguna:`, error);
+      res.status(500).json(error);
+    }
+  }
+
+  static async updateUserProfile(req, res) {
+    const userId = req.user.id; // Ambil ID pengguna dari JWT token
+    const updatedData = req.body; // Data yang akan diperbarui
+    const { username,
+      email,
+      password,
+      nama,
+      noTelepon,
+      alamat } = updatedData;
+
+    let response;
+    try {
+      const updateProfile = await User.update(
+        {
+          username,
+          email,
+          password,
+          nama,
+          noTelepon,
+          alamat,
+        },
+        {
+          where: {
+            id: userId,
+          },
+        }
+      );
+
+      const Result = await User.findOne({
+        where: {
+          id: userId,
+        }, attributes: { exclude: ['password'] },
+
+      });
+
+      response = Result;
+
+      if (!Result) {
+        return res.status(404).json({ message: "Profil pengguna tidak ditemukan" });
+      }
+
+      res.status(200).json({ message: "Profil pengguna berhasil diperbarui", Result });
+    } catch (error) {
+      console.error(`Error saat memperbarui profil pengguna:`, error);
+      res.status(500).json(error);
+    }
+  }
+
+  static async getUser(req, res) {
+    try {
+      const Users = await User.findAll();
+      res.status(200).json(Users);
+    } catch (error) {
+      console.log(`Error menampilkan Daftar User! ${error}`);
+      res.status(500).json(error);
+    }
+  }
+
+  static async deleteUser(req, res) {
+    const userId = Number(req.params["id"]);
+
+    let response;
+    try {
+      const Users = await User.destroy({
+        where: {
+          id: userId,
+        },
+      });
+
+      response = `${Users} User berhasil dihapus, dengan ID: ${userId}`;
+      if (!Users) {
+        return res.status(404).json({ message: "User tidak ditemukan" });
+      }
+    } catch (error) {
+      console.log(`Error menghapus User! ${error}`);
+      response = JSON.stringify(error);
+    }
+
+    res.status(200).json(response);
+  }
 }
 
 module.exports = Controller;

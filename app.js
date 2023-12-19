@@ -1,6 +1,7 @@
 const express = require("express");
 const routers = require("./routes/index");
 const cors = require("cors");
+const errorHandling = require("./middlewares/errorHandling");
 
 const app = express();
 const port = 4004;
@@ -13,8 +14,9 @@ app.get("/", (req, res) => {
 });
 
 app.use(routers);
+app.use(errorHandling);
 app.use(cors());
 
 app.listen(port, () => {
-  console.log(`Started server at on port ${port}`);
+  console.log(`Server listening on http://localhost:${port}...`);
 });
