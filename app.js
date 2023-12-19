@@ -4,7 +4,7 @@ const cors = require("cors");
 const errorHandling = require("./middlewares/errorHandling");
 
 const app = express();
-const port = 3004;
+const port = 4004;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
