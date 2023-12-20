@@ -1,4 +1,4 @@
-const { OrderMenu, Order, Menu, sequelize } = require("../models"); //Import Sequelize to apply create, update, findAll, findOne, delete method
+const { OrderMenu, Order, Menu, User, sequelize } = require("../models"); //Import Sequelize to apply create, update, findAll, findOne, delete method
 // const menu = require("../models/menu");
 
 class Controller {
@@ -52,6 +52,24 @@ class Controller {
         { where: { id: saved_order.id }, transaction: t }
       );
 
+      const orderGetted = await Order.findAll(
+        {
+          include: [
+            {
+              model: OrderMenu,
+              include: {
+                model: Menu,
+              },
+            },
+            {
+              model: User,
+            },
+          ],
+        },
+        { transaction: t }
+      );
+
+      //   await t.rollback();
       await t.commit();
       res.status(201).json({
         message: `order dengan total harga ${total_harga} berhasil dibuat`,
