@@ -5,7 +5,7 @@ const { User } = require("../models");
 class Controller {
   static async registerUser(req, res) {
     const body = req.body;
-    const { username, email, password, nama, noTelepon, alamat } = body;
+    const { username, email, password, nama, noTelepon, alamat, isSeller = false } = body;
 
     try {
       const newUser = await User.create({
@@ -15,6 +15,7 @@ class Controller {
         nama,
         noTelepon,
         alamat,
+        isSeller,
       });
 
       res.status(201).json({ message: "Akun berhasil dibuat, silahkan login!", newUser });
@@ -45,7 +46,6 @@ class Controller {
       const validation = bcrypt.compareSync(password, loginUser.password);
 
       if (validation) {
-        //Mengubah id dan email menjadi JWT Token
         const token = jwt.sign(
           {
             id: loginUser.id,
@@ -54,8 +54,7 @@ class Controller {
           secret
         );
 
-        //Jika password dan email VALID
-        res.status(200).json({ message: "Berhasil login!", token });
+        res.status(200).json({ message: "Berhasil login!", data: { token, isSeller: loginUser.isSeller } });
       } else {
         //Jika password yang diinput salah atau tidak valid
         return res.status(403).json("Salah Email/Password!");
@@ -71,7 +70,7 @@ class Controller {
 
     try {
       const userProfile = await User.findByPk(userId, {
-        attributes: { exclude: ['password'] }, // Jangan sertakan password
+        attributes: { exclude: ["password"] }, // Jangan sertakan password
       });
 
       if (!userProfile) {
@@ -88,12 +87,7 @@ class Controller {
   static async updateUserProfile(req, res) {
     const userId = req.user.id; // Ambil ID pengguna dari JWT token
     const updatedData = req.body; // Data yang akan diperbarui
-    const { username,
-      email,
-      password,
-      nama,
-      noTelepon,
-      alamat } = updatedData;
+    const { username, email, password, nama, noTelepon, alamat } = updatedData;
 
     let response;
     try {
@@ -116,8 +110,8 @@ class Controller {
       const Result = await User.findOne({
         where: {
           id: userId,
-        }, attributes: { exclude: ['password'] },
-
+        },
+        attributes: { exclude: ["password"] },
       });
 
       response = Result;
