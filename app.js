@@ -6,6 +6,7 @@ const errorHandling = require("./middlewares/errorHandling");
 const app = express();
 const port = 4004;
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -15,7 +16,6 @@ app.get("/", (req, res) => {
 
 app.use(routers);
 app.use(errorHandling);
-app.use(cors());
 
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}...`);
