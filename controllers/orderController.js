@@ -1,5 +1,4 @@
 const { OrderMenu, Order, Menu, User, sequelize } = require("../models");
-const isAdmin = require("../middlewares/isAdmin");
 
 
 class Controller {
@@ -7,7 +6,8 @@ class Controller {
         const t = await sequelize.transaction();
         try {
             const userId = req.userId;
-            if (isAdmin) {
+            const user = await User.findByPk(userId);
+            if (user.isSeller) {
                 const orderGetted = await Order.findAll(
                     {
                         include: [
