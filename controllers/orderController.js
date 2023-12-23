@@ -43,7 +43,7 @@ class Controller {
         res.status(200).json(orderGetted);
       }
 
-      console.log(JSON.stringify(orderGetted, null, 2)); //Check data di Console
+      //console.log(JSON.stringify(orderGetted, null, 2)); //Check data di Console
       await t.commit();
     } catch (error) {
       await t.rollback();
