@@ -66,7 +66,7 @@ class Controller {
   }
 
   static async getUserProfile(req, res) {
-    const userId = req.user.id; // Ambil ID pengguna dari JWT token
+    const userId = req.userId; // Ambil ID pengguna 
 
     try {
       const userProfile = await User.findByPk(userId, {
@@ -85,7 +85,7 @@ class Controller {
   }
 
   static async updateUserProfile(req, res) {
-    const userId = req.user.id; // Ambil ID pengguna dari JWT token
+    const userId = req.userId; // Ambil ID pengguna 
     const updatedData = req.body; // Data yang akan diperbarui
     const { username, email, password, nama, noTelepon, alamat } = updatedData;
 
@@ -130,7 +130,7 @@ class Controller {
   static async getUser(req, res) {
     try {
       const Users = await User.findAll();
-      res.status(200).json(Users);
+      res.status(200).json({ message: "Daftar USer", data: Users });
     } catch (error) {
       console.log(`Error menampilkan Daftar User! ${error}`);
       res.status(500).json(error);
