@@ -66,7 +66,7 @@ class Controller {
   }
 
   static async getUserProfile(req, res) {
-    const userId = req.userId; // Ambil ID pengguna 
+    const userId = req.userId; // Ambil ID pengguna
 
     try {
       const userProfile = await User.findByPk(userId, {
@@ -85,7 +85,7 @@ class Controller {
   }
 
   static async updateUserProfile(req, res) {
-    const userId = req.userId; // Ambil ID pengguna 
+    const userId = req.userId; // Ambil ID pengguna
     const updatedData = req.body; // Data yang akan diperbarui
     const { username, email, password, nama, noTelepon, alamat } = updatedData;
 

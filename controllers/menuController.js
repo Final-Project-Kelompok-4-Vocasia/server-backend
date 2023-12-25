@@ -23,7 +23,7 @@ class Controller {
   static async getMenu(req, res) {
     try {
       const Menus = await Menu.findAll();
-      res.status(200).json(Menus);
+      res.status(200).json({ message: "Daftar Menu", data: Menus });
     } catch (error) {
       console.log(`Error menampilkan Menu! ${error}`);
       res.status(500).json(error);
