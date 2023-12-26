@@ -18,6 +18,7 @@ class Controller {
               },
               {
                 model: User,
+                attributes: ["id", "nama", "alamat"],
               },
             ],
           },
